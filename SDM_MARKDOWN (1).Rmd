@@ -1,0 +1,176 @@
+---
+title: "STATISTICAL ANALYSIS"
+output:
+  word_document: default
+  pdf_document: default
+---
+
+```{r}
+boattrader_clean =read.csv("sdm_final_project2.csv")
+attach(boattrader_clean)
+plot(Length,Price)
+mod1 = lm(Price~ Length, data = boattrader_clean)
+summary(mod1)
+plot(Price,mod1$fitted.values)
+par(mfrow = c(2, 2))
+plot(mod1)
+```
+Written Interpretation :
+We can write our model as :
+Price = -874823.4 + Length*27064
+For each increase in length, We can expect price of our model to increase by summation of -874823 and length multiplied by 27064. 
+R-Square :.2314 : it means our model explains 23 percent of the variation in price due to length. 
+#Price-Age model
+```{r}
+mod2 = lm(Price~age, data = boattrader_clean)
+summary(mod2)
+plot(Price,mod2$fitted.values)
+par(mfrow = c(2, 2))
+plot(mod2)
+```
+Written Interpretation : 
+In this model we see the price due to age of the model. 
+As the R square is just .04, we can conclude it is a very bad model.
+According to this model with each increase in age we can expect price to decrease by $848340 minus age * -19294 
+If we see the graph, there is no way linear pattern is going to fit here and we should try log model for it. 
+
+```{r}
+#Price-age log
+mod3 = lm(log(Price)~age, data = boattrader_clean)
+summary(mod3)
+plot(Price,mod3$fitted.values)
+par(mfrow = c(2, 2))
+plot(mod3)
+```
+As we can see our model r square has increased from 0.04 to 0.19. After introducing log our fit is increased and model is about to explain 19 percent of variation in price as function of age.
+
+Interpretation : As seen the coefficient of age i.e 0.04 or exp(0.04), we can say that with every increase in age we can expect price to decrease by (1-exp(0.04))*100, i.e 4 percent. Hence, whenever age increases our model expects price to be decreased by 4 percent
+
+```{r}
+#Price-Length log
+plot(Length,Price)
+mod4 = lm(Price~ log(Length), data = boattrader_clean)
+summary(mod4)
+par(mfrow = c(2, 2))
+plot(mod4)
+```
+Intercept is -775729
+Coefficient of log(length) is 2121948
+
+We have introduced log transformed independent variable as log(Length) and we can see r square to increase by 1 percent as comapared to one without any log transformed variable.
+Here, the one percent increase in independent variable increases dependent variable by (coefficient/100) units. 
+So, for one percent increase in length we can expect Price to increase by (2121948/100) i.e $21219.48 
+
+```{r}
+#Price-length+age
+mod5 = lm(Price~ Length+age, data = boattrader_clean)
+summary(mod5)
+plot(Price,mod5$fitted.values)
+par(mfrow = c(2, 2))
+plot(mod5)
+```
+Here we have predicted price as function of length and age
+Price = -559913 + Length*26183 -  14858.65*age
+
+we have r sqaure as .2556 it means our model is explaining 25 percent of the variation in price as the function of length and age. As we can see all of our p values are below 0.05 and therefore the model is statistically significant. 
+
+Written Interpretation: 
+as seen by the coefficients of length, i.e 26183 and age , i.e 14858.65.
+for each increase in age and length, we can expect price in dollars to be summation of -559913, 26183 times length and -14858.65 times age. 
+
+```{r}
+#Price,length,hull.material
+mod6 = lm(Price~ Length+Hull.Material, data = boattrader_clean)
+summary(mod6)
+plot(Price,mod6$fitted.values)
+par(mfrow = c(2, 2))
+plot(mod6)
+```
+This model predicts price as the function of Length and Hull.material
+
+Price = -1036469 + Length *32102 + Hull.materialComposite*502488 - Fibreglass*40203 - Other*1654785 + MaterialWood*158853 - Ferrocement*32205-MaterialHypalon*180530-Steel*596077
+
+This model predicts price by the length and the hull.material used for every boat there is a hull material , so which ever hull material is used the model take it as 1 and rest of them as 0. and predicts price as the summation of Intercept(-1036469), Length*32102 and Hull.material multiplied by its coefficient. 
+For Instance, when the hull.material is Wood we can expect price to be -1036469 + 32102 times its length and Material wood coefficient 158853 * 1. 
+
+As our r square is 0.29 it means our model explains 29 percent of the variation in price due to hull material and length. 
+
+```{r}
+#Price,length,hull.material,age
+mod7 = lm(Price~ Length+Hull.Material+age, data = boattrader_clean)
+summary(mod7)
+plot(Price,mod7$fitted.values)
+```
+From the previous model we have included a variable age to predict price as function of price age and hull material.
+
+Price = -599455 + Length *30904-age*16366 + Hull.materialComposite*347243 - Fibreglass*124266 - Other*1792125.2 + MaterialWood*347835.6 - Ferrocement*176197.1-MaterialHypalon*14365-Steel*495539.1 
+
+This model predicts price by the length age and the hull.material used. for every boat there is a hull material , so which ever hull material is used the model take it as 1 and rest of them as 0. and predicts price as the summation of -1036469, Length*32102, -16366*age and Hull.material multiplied by its coefficient. 
+For Instance, when the hull.material is Wood we can expect price to be -1036469 + 32102 times its length-16366 times age and Material wood coefficient 347835.6 * 1. 
+
+As our r square is 0.32 it means our model explains 32 percent of the variation in price due to hull material length and age.
+
+```{r}
+#Price,Length,Engine.Type,age
+mod8 = lm(Price~ Length+Engine.Type+age, data = boattrader_clean)
+summary(mod8)
+plot(Price,mod8$fitted.values)
+```
+This model predicts price based on Length of the boat, Engine type and age. 
+
+R-square for this model is .2619, i.e model explains 26 percent of variation in price when age length and engines are independent variables
+
+Price = -751771 +Length*26609 -age* 16030.5 +SingleInboard*129712 + SingleOutboard*248385.7 + TripleOutboard*222280.3 + TwinInboard*311799.7 +TwinOutboard*985961.6
+
+This model shows how different engines are involved in price including price and age
+If Engine is Single inboard we can expect price to increase by $129712, length and age being constant. Similarly Increase of $248345 for Single Outboard. $222280 for Triple Outboard, $311700.7 for Twin Outboard and 985961 for Twin Outboard. 
+
+we can expect price to be summation of -75177, Length *26609 ,-16030.5*age, and any one engine mentioned with 1 multiplied by its coefficient. For Instance, if it is Twin Outboard then  -75177 + Length *26609 -16030.5*age+1*989561. And rest of the engine variables would be 0.  
+
+```{r}
+#Interaction variable
+mod10 <- lm(log(Price)~ Length + age*Hull.Material,data = boattrader_clean)
+summary(mod10)
+plot(Price,mod10$fitted.values)
+
+```
+In this model we are showing interaction between age and material. we can see from the hull coefficients that with progressing age the cost decreases variably as depicted by the coefficient of material. 
+
+For instance,if we take material steel We can expect price to be exp(0.02)*age- exp(0.009)*length-exp(.09)*MaterialSteel -exp(.01)*age*MaterialSteel, i.e for every unit change in age and length we can expect price to decrease by 12.9 percent for MaterialSteel. 
+
+As the r square is .49 and interaction terms are statistically significant so our model is explaining 49 percent of the variation which is significant.
+```{r}
+#Interaction variable2
+boattrader2 =read.csv("boattrader2.csv")
+mod11 <- lm(log(Price)~ Length + age*Class, data = boattrader2)
+summary(mod11)
+plot(boattrader2$Price,mod11$fitted.values)
+par(mfrow = c(2, 2))
+plot(mod11)
+```
+
+Here the Interaction is between Age and Class.
+log(Price) = 12.01 +0.02*Length -0.04*age -5.92 * ClassPWC-0.38*ClassSails +0.19*age*ClassPWC + 0.008* age * ClassSails.
+
+R-square = .5069, i.e model explains 50 percent of the variation in x by the length and interaction of age and class.  
+
+Written Interpretation : 
+For each unit of change in age and length we can expect price for ClassSails to be exp(0.02) -exp(0.04)-exp(0.38) + exp(0.008) = decrease by 5 percent.  
+
+```{r}
+#Final Model: 
+mod_final = lm(log(Price)~ Length+Engine.Type+age+Hull.Material+State+Class, data = boattrader2)
+summary(mod_final)
+plot(boattrader2$Price,mod_final$fitted.values)
+par(mfrow = c(2, 2))
+plot(mod_final)
+```
+This is the model where log(price) is the dependent variable Length and independent variables are Engine.Type,age,Hull.Material,State and Class. 
+
+We are getting R square of .61 which means model is explaining about 61 percent of the variation due to dependent variables. 
+
+We can Interpret this model using some particular categorical value.
+for each unit increase in length and age and if the engine is single.inboard, state is florida and the hull is steel.
+
+We can expect price to be
+log(Price) = 12.60 +0.02*Length-0.04*age -0.16*single. inboard -0.38*Hull.materialSteel+0.05*StateFL= decrease by 49 percent. 
