@@ -5,7 +5,7 @@ Used python programming to scrap the details on www.boattrader.com and the scrip
 
 ---uses a loop that goes to every image on every page. Script scraps details all around the image tab and dumps details to the excel file. 
 
----Since at a time only 30 pages can be traversed by the loop, I runned the script again and again till enough data is obtained for analysis.
+---Since at a time only 30 pages can be traversed by the loop, I ran the script multiple times till enough data is obtained for analysis.
 
 Ingested the data in R for Analysis
 
