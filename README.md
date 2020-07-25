@@ -5,4 +5,4 @@ Used python programming to scrap the details on www.boattrader.com and the scrip
 
 EDA using Tableau.
 
-Implemented various modelling techniques(Regression models, OLS testing for assumptions, running non-parametric regression models, Mixed effects regression model (Interaction variables)) on price. 
+Implemented various modelling techniques(Regression models, OLS testing for assumptions, running non-parametric regression models, Mixed effects regression model (Interaction variables)) on price using R.
